@@ -293,7 +293,7 @@ void loop()
   
   int button = getButton();
 
-  if (button > '0' && button <= '9')
+  if (button >= '0' && button <= '9')
   {
     if (KeyCounter < KEYBUFFERLENGTH)
     {
