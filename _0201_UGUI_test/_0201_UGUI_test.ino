@@ -136,9 +136,9 @@ void SysTick_Handler(void)
     TP_State = IOE_TP_GetState();
     if ( TP_State->TouchDetected )
     {
-      if ( (TP_State->X > 0) && (TP_State->X < 239 ) )
+      if ( (TP_State->X > 0) && (TP_State->X < 480 ) )
       {
-        if ( (TP_State->Y > 0) && (TP_State->Y < 319 ) )
+        if ( (TP_State->Y > 0) && (TP_State->Y < 272 ) )
         {
           UG_TouchUpdate(TP_State->X, TP_State->Y, TOUCH_STATE_PRESSED);
         }
