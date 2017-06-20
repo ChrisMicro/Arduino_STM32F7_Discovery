@@ -10,41 +10,10 @@
 
 ************************************************************************/
 
-#include <Wire.h>
-#include "stm32_ub_touch_480x272.h"
 #include "LTDC_F746_Discovery.h"
+#include "TouchScreen_F7_Discovery.h"
 
-LTDC_F746_Discovery tft;
-
-uint8_t UB_I2C3_ReadByte(uint8_t addressI2cDevice, uint8_t registerId)
-{
-  uint8_t result;
-  addressI2cDevice = addressI2cDevice >> 1;
-
-  Wire.beginTransmission( addressI2cDevice  );
-  Wire.write( registerId );
-  uint8_t error;
-  error = Wire.endTransmission();
-
-  Wire.requestFrom( addressI2cDevice, (uint8_t) 1 , (uint8_t) true );
-
-  while ( Wire.available() < 1 );
-
-  result = Wire.read() ;
-
-  if (error)Serial.println("I2C error");
-
-  return result;
-}
-
-#define LCD_CS A3
-#define LCD_CD A2
-#define LCD_WR A1
-#define LCD_RD A0
-
-#define LCD_RESET A4
-
-#define  BLACK   0x0000
+#define BLACK   0x0000
 #define BLUE    0x001F
 #define RED     0xF800
 #define GREEN   0x07E0
@@ -67,6 +36,9 @@ uint8_t UB_I2C3_ReadByte(uint8_t addressI2cDevice, uint8_t registerId)
 #define TS_MAXX 965
 #define TS_MAXY 140
 
+LTDC_F746_Discovery tft;
+TouchScreen ts = TouchScreen(XP, YP, XM, YM, SENSIBILITY);
+
 int wing;
 int fx, fy, fallRate;
 int pillarPos, gapPos;
@@ -81,56 +53,8 @@ void startGame();
 void drawLoop();
 void checkCollision();
 
-class TSPoint
-{
-  public:
-    TSPoint()
-    {
-
-    }
-    TSPoint(int16_t x, int16_t y, int16_t z)
-    {
-
-    }
-
-    bool operator==(TSPoint);
-    bool operator!=(TSPoint);
-
-    int16_t x, y, z;
-};
-
-class TouchScreen {
-  public:
-    TouchScreen(int xp, int yp, int xm, int ym, int sensibility)
-    {
-
-    }
-
-    TSPoint getPoint()
-    {
-      TSPoint p;
-      
-      UB_Touch_Read();
-
-      p.x = Touch_Data.xp;
-      p.y = Touch_Data.yp;
-      p.z = P_Touch_GetContacts()*MAXPRESSURE/2;
-      
-      return p;
-    }
-
-};
-
-TouchScreen ts = TouchScreen(XP, YP, XM, YM, SENSIBILITY);
-
 void setup()
 {
-  Wire.stm32SetInstance(I2C3);
-  Wire.stm32SetSDA(PH8);
-  Wire.stm32SetSCL(PH7);
-  Wire.begin();
-
-  UB_Touch_Init();
   // The buffer is memory mapped
   // You can directly draw on the display by writing to the buffer
   uint16_t *buffer = (uint16_t *)malloc(LTDC_F746_ROKOTECH.width * LTDC_F746_ROKOTECH.height);
@@ -172,7 +96,6 @@ void setup()
 
 void loop(void)
 {
-  //delay(1000);
   if (millis() > nextDrawLoopRunTime )
   {
     drawLoop();
@@ -199,9 +122,7 @@ void loop(void)
     scrPress = false;
   }
 
-
 }
-
 
 void drawBorder () {
   uint16_t width = tft.width() - 1;
