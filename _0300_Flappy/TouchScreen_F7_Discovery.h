@@ -23,6 +23,7 @@ class TSPoint {
 class TouchScreen {
   public:
     TouchScreen(uint8_t xp, uint8_t yp, uint8_t xm, uint8_t ym, uint16_t rx);
+    TouchScreen(void);
     bool isTouching(void);
     uint16_t pressure(void);
     int readTouchY();

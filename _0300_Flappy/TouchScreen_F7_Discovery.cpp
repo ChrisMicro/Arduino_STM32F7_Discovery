@@ -78,6 +78,10 @@ TouchScreen::TouchScreen(uint8_t xp, uint8_t yp, uint8_t xm, uint8_t ym, uint16_
 {
   isInitialized = false;
 }
+TouchScreen::TouchScreen()
+{
+  isInitialized = false;
+}
 
 int TouchScreen::readTouchX(void)
 {

@@ -26,18 +26,8 @@
 #define MINPRESSURE 10
 #define MAXPRESSURE 1000
 
-#define YP 1 // A1
-#define XM 2 // A2
-#define YM 7
-#define XP 6
-
-#define TS_MINX 600
-#define TS_MINY 900
-#define TS_MAXX 965
-#define TS_MAXY 140
-
-LTDC_F746_Discovery tft;
-TouchScreen ts = TouchScreen(XP, YP, XM, YM, SENSIBILITY);
+LTDC_F746_Discovery  tft;
+TouchScreen          ts;
 
 int wing;
 int fx, fy, fallRate;
