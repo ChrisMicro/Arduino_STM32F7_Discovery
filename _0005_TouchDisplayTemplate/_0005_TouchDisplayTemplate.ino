@@ -35,10 +35,9 @@ void loop()
 {
     TSPoint p = ts.getPoint();
     
-    if (OldPoint.x != p.x || OldPoint.y != p.y)
+    if( OldPoint != p )
     {
-      OldPoint.x = p.x;
-      OldPoint.y = p.y;
+      OldPoint=p;
       
       tft.fillScreen( LTDC_BLACK );
 
