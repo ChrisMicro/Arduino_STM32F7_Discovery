@@ -43,14 +43,19 @@ Si4703_Breakout radio(resetPin, SDIO, SCLK);
 TouchScreen ts;
 
 GUI_Slider sliderVolume ("vol"  );
+GUI_labeledObject   textSeek("seek");
 GUI_Button buttonSeekUp("up");
 GUI_Button buttonSeekDown("down");
 GUI_Number numberChannel("channel");
-GUI_Led led("clock");
 
+GUI_Text textRDS("RDS");
+
+GUI_Led led(350,220,"alive");
 
 int channel;
 int oldVolume=0;
+
+char rdsBuffer[10]={0};
 
 void setup()
 {
@@ -59,11 +64,15 @@ void setup()
   
   gui.begin();
   sliderVolume.show();
+  textSeek.showLabel();
   buttonSeekUp.show();
   buttonSeekDown.show();
   numberChannel.show();
-
-  channel=962;
+  //textRDS.show();
+  
+  textRDS.print(rdsBuffer);
+ 
+  channel=903;
   radio.setChannel(channel);
   numberChannel.print(channel);
   
@@ -94,6 +103,13 @@ void loop()
     channel = radio.seekDown();
     numberChannel.print(channel);
   }
+  /*
+if(led.isHit())
+{
+   radio.readRDS(rdsBuffer, 15000);  
+   strcpy(rdsBuffer,"none");
+   textRDS.print(rdsBuffer);
+}*/
 
   led.toggle();
 
