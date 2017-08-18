@@ -92,5 +92,52 @@ void loop()
   delay(10);
 }
 
+/*
+
+ Java UDP sender
+
+ reads a string from the keyboard and sends it as UDP packet
+
+
+ How to use java:
+ 1. install java jdk
+ 2. compile this file ( UDPSender.java )
+    
+    javac UDPSender.java
+
+ 3. run it
+    java UDPSender 
+
+*/
+/*
+import java.io.*;
+import java.net.*;
+
+class UDPSender
+{
+   public static void main(String args[]) throws Exception
+   {
+
+      String destinationIpAddress = "192.168.178.177";
+      int    destinationIpPort    = 8888;
+      
+      BufferedReader inFromUser =   new BufferedReader(new InputStreamReader(System.in));
+      DatagramSocket clientSocket = new DatagramSocket();
+      
+      InetAddress IPAddress = InetAddress.getByName( destinationIpAddress );
+      
+      byte[] sendData = new byte[1024];
+      
+      System.out.print("your mesage: ");
+      String sentence = inFromUser.readLine();
+      sendData = sentence.getBytes();
+      DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, destinationIpPort);
+      clientSocket.send(sendPacket);
+   }
+}
+
+// derived from
+// https://systembash.com/a-simple-java-udp-server-and-udp-client/
+*/
 
 
